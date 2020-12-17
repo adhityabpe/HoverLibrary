@@ -18,7 +18,7 @@ var dotenv = require('dotenv');
 dotenv.config();
 
 var app = express();
-var connect = mongoose.connect(dbconfig.url, { useNewUrlParser: true }); 
+var connect = mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }); 
 connect.then((db) => {
   console.log('Berhasil connect Mongo DB');
 }, (err) => {
@@ -61,4 +61,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.listen(3000);
 module.exports = app;
