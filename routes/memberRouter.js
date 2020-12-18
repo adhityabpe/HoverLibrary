@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const key = require('../config/db')
+const { registerValidation, loginValidation } = require('../validation');
 
 router.route('/')
 .get(async(req, res, next) => {
@@ -18,6 +19,10 @@ router.route('/')
     }
   })
 .post(async(req, res, next) => {
+    //Validate the data register
+    const {error} = registerValidation(req.body);
+    if(error) return res.status(400).send(error.details[0].message);
+
     try {
         const {member_id, name, email, password, address, phoneNumber, gender} = req.body;
    
@@ -69,6 +74,10 @@ router.route('/:id')
 })
 
 router.post('/auth/login', (req, res, next) => {
+    //Login Validation
+    const {error} = loginValidation(req.body);
+    if(error) return res.status(400).send(error.details[0].message);
+    
     const email = req.body.email;
     const password = req.body.password;
     Member.findOne({ email }).then(member => {
