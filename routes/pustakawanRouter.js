@@ -20,8 +20,8 @@ router.route('/')
   })
 .post(async(req, res, next) => {
     //Validate the data register pustakawan
-    const {error} = registerPustakawan(req.body);
-    if(error) return res.status(400).send(error.details[0].message);
+    // const {error} = registerPustakawan(req.body);
+    // if(error) return res.status(400).send(error.details[0].message);
 
     try {
         const {pustakawan_id, name, pustakawan_photo, email, password, address, phoneNumber, gender} = req.body;
