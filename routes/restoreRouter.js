@@ -19,8 +19,8 @@ router.route('/')
     try {
         const {idPeminjaman, tanggal_kembali, denda, idBuku, idAnggota, idPetugas,review_buku,rating_buku} = req.body
         const restore = await Restore.findOne({idPeminjaman})
-            if(!restore){
-                return res.status(400).json({msg: "This Book Still not return to the library"}) 
+            if(restore){
+                return res.status(400).json({msg: "This RestoreID already used by another user"}) 
             }
         const newRestore = new Restore({idPeminjaman, tanggal_kembali, denda, idBuku, idAnggota, idPetugas,review_buku,rating_buku})
         await newRestore.save()

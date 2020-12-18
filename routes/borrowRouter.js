@@ -20,7 +20,7 @@ router.route('/')
         const {idPeminjaman, tanggal_pinjam, tanggal_kembali, idBuku, idAnggota, idPetugas } = req.body
         const borrow = await Borrow.findOne({idPeminjaman})
             if(borrow){
-                return res.status(400).json({msg: "This Book Still not return to the library"}) 
+                return res.status(400).json({msg: "This BorrowID already used by another user"}) 
             }
         const newBorrow = new Borrow({idPeminjaman, tanggal_pinjam, tanggal_kembali, idBuku, idAnggota, idPetugas })
         await newBorrow.save()

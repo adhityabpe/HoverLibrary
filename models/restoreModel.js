@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 const restoreSchema = new mongoose.Schema(
   {
-    idPengembalian: {
+    idPeminjaman: {
       type: Number,
       required: true,
       primary: true
