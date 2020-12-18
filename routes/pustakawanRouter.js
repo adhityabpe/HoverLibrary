@@ -4,34 +4,34 @@ const mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
-const { registerPustakawan, loginPustakawan } = require('../validation');
-
+const key = require('../config/db')
+const {   registerPustakawan, loginPustakawan } = require('../validation');
 
 router.route('/')
 .get(async(req, res, next) => {
     try {
-        const pustakawan = await Pustakawan.find();
+        const pustakawans = await Pustakawan.find();
         res.status = 200;
         res.setHeader('Content-type', 'application/json');
-        res.json(pustakawan)
+        res.json(pustakawans)
     } catch (err) {
         return res.status(500).json({msg: err.msg});
     }
   })
 .post(async(req, res, next) => {
-    //Validate the data register pustakawan
-    // const {error} = registerPustakawan(req.body);
-    // if(error) return res.status(400).send(error.details[0].message);
+    //Validate the data register
+    const {error} = registerPustakawan(req.body);
+    if(error) return res.status(400).send(error.details[0].message);
 
     try {
-        const {pustakawan_id, name, pustakawan_photo, email, password, address, phoneNumber, gender} = req.body;
+        const {pustakawan_id, name, email, password, address, phoneNumber, gender} = req.body;
    
         const pustakawan = await Pustakawan.findOne({pustakawan_id});
         if(pustakawan){
             return res.status(400).json({msg: "Pustakawan has exists"}); 
         }
         const newPustakawan= new Pustakawan({
-            pustakawan_id, name, pustakawan_photo, email, password, address, phoneNumber, gender
+            pustakawan_id, name, email, password, address, phoneNumber, gender
         })
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(newPustakawan.password, salt, (err, hash) => {
@@ -42,7 +42,7 @@ router.route('/')
         })
         res.status = 200;
         res.setHeader('Content-type', 'application/json');
-        res.json({msg : "Created Pustakawan Data success"});
+        res.json({msg : "Created a Pustakawan success"});
     } catch (err) {
         return res.status(500).json({msg: err.msg});
     }
@@ -74,10 +74,10 @@ router.route('/:id')
 })
 
 router.post('/auth/login', (req, res, next) => {
-    //Login Validation pustakawan
+    //Login Validation
     const {error} = loginPustakawan(req.body);
     if(error) return res.status(400).send(error.details[0].message);
-
+    
     const email = req.body.email;
     const password = req.body.password;
     Pustakawan.findOne({ email }).then(pustakawan => {
@@ -86,11 +86,11 @@ router.post('/auth/login', (req, res, next) => {
         }
         bcrypt.compare(password, pustakawan.password).then(isMatch => {
             if (isMatch) {
-                //memberMatched
+                //pustakawanMatched
                 const payload = { id: pustakawan.id, name: pustakawan.name }; 
                 //Create JWT Payload
                 //Sign Token
-                jwt.sign(payload, process.env.KEY, { expiresIn: 3600 }, (err, token) => {
+                jwt.sign(payload, key.key, { expiresIn: 3600 }, (err, token) => {
                     res.json({
                         success: true,
                         token: "Bearer " + token

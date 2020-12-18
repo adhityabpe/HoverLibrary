@@ -45,8 +45,8 @@ app.use('/member',memberRouter);
 app.use('/pustakawan',pustakawanRouter);
 app.use('/borrow',borrowRouter);
 app.use('/restore',restoreRouter);
-app.use('/upload',uploadRouter);
 app.use('/book',bookRouter);
+app.use('/upload',uploadRouter);
 app.use('/rack',rackRouter);
 
 // catch 404 and forward to error handler
