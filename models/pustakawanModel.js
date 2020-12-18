@@ -12,11 +12,7 @@ const pustakawanSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    pustakawan_photo:{
-        type: String,
-        required: true
-        
-    },
+    
     address: {
         type: String,
         required: true

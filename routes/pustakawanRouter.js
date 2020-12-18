@@ -19,14 +19,14 @@ router.route('/')
   })
 .post(async(req, res, next) => {
     try {
-        const {pustakawan_id, name, pustakawan_photo, email, password, address, phoneNumber, gender} = req.body;
+        const {pustakawan_id, name, email, password, address, phoneNumber, gender} = req.body;
    
         const pustakawan = await Pustakawan.findOne({pustakawan_id});
         if(pustakawan){
             return res.status(400).json({msg: "Pustakawan has exists"}); 
         }
         const newPustakawan= new Pustakawan({
-            pustakawan_id, name, pustakawan_photo, email, password, address, phoneNumber, gender
+            pustakawan_id, name, email, password, address, phoneNumber, gender
         })
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(newPustakawan.password, salt, (err, hash) => {

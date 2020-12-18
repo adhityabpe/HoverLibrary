@@ -17,12 +17,12 @@ router.route('/')
   })
 .post(passport.authenticate("jwt", { session: false }),async(req, res, next) => {
     try {
-        const {judul_buku, id_buku, penulis_buku, penerbit_buku, kategori_buku, tahun_terbit} = req.body
+        const {judul_buku, id_buku, image, penulis_buku, penerbit_buku, kategori_buku, tahun_terbit} = req.body
         const book = await Book.findOne({id_buku})
             if(book){
                 return res.status(400).json({msg: "This Book Still not return to the library"}) 
             }
-        const newBook = new Book({judul_buku, id_buku, penulis_buku, penerbit_buku, kategori_buku, tahun_terbit})
+        const newBook = new Book({judul_buku, id_buku, image, penulis_buku, penerbit_buku, kategori_buku, tahun_terbit})
         await newBook.save()
         res.status = 200;
         res.setHeader('Content-type', 'application/json');

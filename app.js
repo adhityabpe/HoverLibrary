@@ -13,6 +13,7 @@ var borrowRouter = require("./routes/borrowRouter");
 var restoreRouter = require("./routes/restoreRouter");
 var bookRouter = require("./routes/bookRouter");
 var rackRouter = require("./routes/rackRouter");
+var uploadRouter = require("./routes/uploadRouter");
 var dotenv = require('dotenv');
 
 dotenv.config();
@@ -44,6 +45,7 @@ app.use('/member',memberRouter);
 app.use('/pustakawan',pustakawanRouter);
 app.use('/borrow',borrowRouter);
 app.use('/restore',restoreRouter);
+app.use('/upload',uploadRouter);
 app.use('/book',bookRouter);
 app.use('/rack',rackRouter);
 

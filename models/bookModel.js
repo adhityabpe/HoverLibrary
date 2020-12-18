@@ -12,6 +12,10 @@ const bookSchema = new mongoose.Schema({
         required: true,
         primary: true
     },
+    image:{
+        type: Object,
+       
+    },
     penulis_buku: {
         type: String,
         required: true
