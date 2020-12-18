@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
-const key = require('../config/db');
 const { registerPustakawan, loginPustakawan } = require('../validation');
 
 
@@ -91,7 +90,7 @@ router.post('/auth/login', (req, res, next) => {
                 const payload = { id: pustakawan.id, name: pustakawan.name }; 
                 //Create JWT Payload
                 //Sign Token
-                jwt.sign(payload, key.key, { expiresIn: 3600 }, (err, token) => {
+                jwt.sign(payload, process.env.KEY, { expiresIn: 3600 }, (err, token) => {
                     res.json({
                         success: true,
                         token: "Bearer " + token
