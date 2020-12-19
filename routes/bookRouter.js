@@ -3,7 +3,6 @@ const Book = require('../models/bookModel')
 const mongoose = require('mongoose');
 const passport = require("passport");
 
-
 router.route('/')
 .get(async(req, res, next) => {
     try {
@@ -50,6 +49,26 @@ router.route('/')
         res.status = 200;
         res.setHeader('Content-type', 'application/json');
         res.json({msg: "Done Deleting this book"}) 
+    } catch (err) {
+        return res.status(500).json({msg: err.msg});
+    }
+})
+.get((req, res, next) => {
+    try {
+        Book.findById(req.params.id, (err, book) => {
+            if (err) res.send(err);
+            Book.find({ "kategori_buku" : book.kategori_buku },(err,all_book)=>{
+                data = []
+                data.push({
+                    book : book,
+                    recomendation : all_book
+                })
+                console.log(data)
+                res.status = 200;
+                res.setHeader('Content-type', 'application/json');
+                res.json(data);
+            })
+        })
     } catch (err) {
         return res.status(500).json({msg: err.msg});
     }
