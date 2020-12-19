@@ -30,6 +30,14 @@ const restoreSchema = new mongoose.Schema(
       type: Number, 
       required: true
     },
+    review_buku:{
+      type: String, 
+      required: true
+    },
+    rating_buku:{
+      type: Number, 
+      required: true
+    },
 
   },
 
