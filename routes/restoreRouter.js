@@ -17,12 +17,12 @@ router.route('/')
   })
 .post(passport.authenticate("jwt", { session: false }),async(req, res, next) => {
     try {
-        const {idPeminjaman, tanggal_kembali, denda, idBuku, idAnggota, idPetugas,review_buku,rating_buku} = req.body
+        const {idPeminjaman, tanggal_kembali, denda, idBuku, idAnggota, idPetugas} = req.body
         const restore = await Restore.findOne({idPeminjaman})
             if(restore){
                 return res.status(400).json({msg: "This RestoreID already used by another user"}) 
             }
-        const newRestore = new Restore({idPeminjaman, tanggal_kembali, denda, idBuku, idAnggota, idPetugas,review_buku,rating_buku})
+        const newRestore = new Restore({idPeminjaman, tanggal_kembali, denda, idBuku, idAnggota, idPetugas})
         await newRestore.save()
         res.status = 200;
         res.setHeader('Content-type', 'application/json');
